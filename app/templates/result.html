@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Result{% endblock %}
+
+{% block content %}
+
+		<script type="text/javascript">
+		// <![CDATA[				
+				$(document).ready(function() {
+				  $('#btn_loading').hide()
+				});	
+				
+				function eval() {
+					$('#btn_eval').hide()
+					$('#btn_loading').show()
+				};
+		// ]]>
+		</script>
+
+	<h1 class="text-center">Which Car is This?</h1>
+	<p class="text-center">Send a brazilian car picture, and we'll try to guess the model.</p>
+	<hr />	
+
+	<div class="alert alert-success">
+		This looks like a <strong>{{prediction[1][0]}}</strong>! Check out the chart bellow to see other possible guesses.
+	</div>
+	
+	<div class="row">
+		<div class="col">
+			<img src="{{ img_data }}" width="400">			
+		</div>
+		<div class="col">
+			<canvas id="myChart"></canvas>
+		</div>
+	</div>
+	</br>
+	
+	<hr />
+	
+	<form class="content" action="{{ url_for('eval') }}" method="post" enctype = "multipart/form-data">
+		<div class="row">
+			<div class="col-10">
+				<input type = "file" name = "file" class="form-control form-control-lg" >
+			</div>
+			<div class="col">
+				<button id='btn_eval' type="submit" class="btn btn-lg btn-primary" onclick='eval()'>Guess</button>
+				<button id='btn_loading' type="submit" class="btn btn-lg btn-primary">
+					<i class="fa fa-refresh fa-spin"></i> Loading...
+				</button>	
+			</div>
+		</div>
+	</form>
+	
+	<hr/>
+	
+	<script>
+		$(function() {
+			// <![CDATA[
+			var ctx = document.getElementById('myChart').getContext('2d');
+			var chart = new Chart(ctx, {
+				// The type of chart we want to create
+				type: 'bar',
+
+				// The data for our dataset
+				data: {
+					labels: [{%for label in prediction[1] %} '{{label}}', {%endfor%}],
+					datasets: [{
+						label: 'Percentage',
+						data: [{%for prob in prediction[0] %} '{{prob}}', {%endfor%}],
+						backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
+						borderColor:['rgb(54, 162, 235)', 'rgb(75, 192, 192)', 'rgb(255, 99, 132)','rgb(255, 159, 64)','rgb(255, 205, 86)'],
+						borderWidth:1
+					}]
+				},
+
+				// Configuration options go here
+				options: {
+						title: {
+								display: false,
+								text: 'Custom Chart Title'
+					}
+				}
+			});
+		});
+		// ]]>
+	</script>	
+	
+{% endblock %}
