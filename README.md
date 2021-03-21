@@ -33,7 +33,7 @@ Production Environment:
 
 ## Installation <a name="installation"></a>
 
-The required libraries are listed in the requirement.txt file, but notably:
+The required libraries are listed in the [requirements.txt](requirements.txt) file, notably:
 
 - tensorflow version: 2.4.1
 - scikit-learn: 0.24.1
