@@ -14,7 +14,7 @@ A deep learning project for brazilian cars classification using TensorFlow.
 
 In this project, a Deep Neural Network was trained to classify brazilian car models. Our goal was basically to predict a brazilian car model given a full car picture.
 
-A simple WebApp was also built to showcase the model's application, in production environment.
+A [simple WebApp](https://deeplearning-brazilian-cars.appspot.com/) was also built to showcase the model's application, in production environment.
 
 The following techniques/technologies were used to achieve that goal:
 
@@ -41,15 +41,19 @@ The required libraries are listed in the requirement.txt file, but notably:
 
 ## File Descriptions <a name="files"></a>
 
-The model folder contains the notebook related to the deep learning image classification task. Markdown cells were used to assist in walking through the thought process of individual steps.
+- The model folder contains the notebook related to the deep learning image classification task. Markdown cells were used to assist in walking through the thought process of individual steps.
 
-The app folder contains the WebApp related files.
+- The app folder contains the WebApp related files.
 
-The app.yaml is used by GAE in production.
+- The data folder contains some pictures that can be used to test the WebApp.
+
+- The app.yaml is used by GAE in production.
 
 ## Results <a name="results"></a>
 
-The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" can be viewed below:
+The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. 
+The WebApp developed using this model can be accessed [here](https://deeplearning-brazilian-cars.appspot.com/).
+The full "Classification Report" is shown below:
 
 <pre>
  precision    recall  f1-score   support
