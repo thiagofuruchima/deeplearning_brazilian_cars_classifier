@@ -8,13 +8,14 @@ A deep learning project for brazilian cars classification using TensorFlow.
 2. [Installation](#installation)
 3. [File Descriptions](#files)
 4. [Results](#results)
-5. [Licensing, Authors, and Acknowledgements](#licensing)
+5. [Web Application](#app)
+6. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Project Overview<a name="overview"></a>
 
 In this project, a Deep Neural Network was trained to classify brazilian car models. Our goal was basically to predict a brazilian car model given a full car picture.
 
-A simple WebApp was also built to showcase the model's application, in production environment.
+A [simple WebApp](https://deeplearning-brazilian-cars.appspot.com/) was also built to showcase the model's application, in production environment.
 
 The following techniques/technologies were used to achieve that goal:
 
@@ -41,15 +42,17 @@ The required libraries are listed in the requirement.txt file, but notably:
 
 ## File Descriptions <a name="files"></a>
 
-The model folder contains the notebook related to the deep learning image classification task. Markdown cells were used to assist in walking through the thought process of individual steps.
+- The model folder contains the notebook related to the deep learning image classification task. Markdown cells were used to assist in walking through the thought process of individual steps.
 
-The app folder contains the WebApp related files.
+- The app folder contains the WebApp related files.
 
-The app.yaml is used by GAE in production.
+- The data folder contains some pictures that can be used to test the WebApp.
+
+- The app.yaml is used by GAE in production.
 
 ## Results <a name="results"></a>
 
-The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" can be viewed below:
+The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" is shown below:
 
 <pre>
  precision    recall  f1-score   support
@@ -190,6 +193,12 @@ weighted avg       0.91      0.91      0.91     20698
 </pre>
 
 It is important to note that the developed model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this low score was due to the high noise data for these models (there are many different types of Goals in Brazil, as this is one of the most popular cars in the last 4 decades). Further experiments should separate these types into subtypes.
+
+## Web Application <a name="app"></a>
+
+A Web Application was developed to showcase the final model in production enviroment. This app can be accessed [here](https://deeplearning-brazilian-cars.appspot.com/).
+
+![image](https://user-images.githubusercontent.com/33558535/111924148-bf4f6d80-8a81-11eb-8149-47e34ded2790.png)
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
