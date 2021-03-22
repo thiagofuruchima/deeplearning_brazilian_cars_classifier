@@ -261,6 +261,8 @@ In this project, a Deep Neural Network (DNN) was trained to classify brazilian c
 The ResNet50v2 was used as a base model for Transfer Learning, and a Web Application was hosted on Google Cloud to showcase the final model in production environment.
 The final model was able classify 129 different models achieving a 91% average accuracy on test set.
 
+Particularly, I find it really interesting how well the model performed given this is a real world dataset (not a reasearch, or prepared dataset). For instance, it can distinguish car models better than me :D
+
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
 Credits to [CVPR 2015](https://arxiv.org/abs/1512.03385) for the ResNet and [Keras](https://keras.io/api/applications/resnet/) for the implementation.
