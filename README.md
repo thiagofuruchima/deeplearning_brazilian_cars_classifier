@@ -73,18 +73,14 @@ ETIOS        631
 C4           641
 </pre>
 
-![image](https://user-images.githubusercontent.com/33558535/112029946-844c4900-8b18-11eb-9f06-3c2647a7610d.png)
+<img src="https://user-images.githubusercontent.com/33558535/112030150-b8276e80-8b18-11eb-8564-7bbe8a464c09.png" alt="drawing" width="400"/>
 
 
 ## Training Process <a name="results"></a>
 
 The model takes more than 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce GTX 1070 Ti).
 
-
-
-The class unbalenced problem was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
-
-
+The class unbalanced problem was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
 
 ## Results <a name="results"></a>
 
@@ -230,7 +226,7 @@ weighted avg       0.91      0.91      0.91     20698
 
 ## Future Work <a name="app"></a>
 
-It is important to note that the developed model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this low score was due to the high noise data for these models (there are many different types of Gols in Brazil, as this is one of the most popular cars for the past 4 decades). Further experiments should separate these types into subtypes.
+It is important to note that the model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this was due to the noise data for these models (i.e.: there are many different types of Gols in Brazil, as this has been one of the most popular cars in Brazil over the past 4 decades). Further experiments should separate these types into subtypes.
 
 
 ## Web Application <a name="app"></a>
