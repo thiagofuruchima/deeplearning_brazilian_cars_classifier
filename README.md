@@ -8,10 +8,12 @@ A deep learning project for brazilian cars classification using TensorFlow.
 2. [Installation](#installation)
 3. [File Descriptions](#files)
 4. [Dataset](#dataset)
-5. [HyperParameter Tuning](#tunning)
+5. [HyperParameter Tuning](#tuning)
 6. [Results](#results)
-7. [Web Application](#app)
-8. [Licensing, Authors, and Acknowledgements](#licensing)
+7. [Improvements](#improvements)
+8. [Conclusion](#conclusion)
+9. [Web Application](#app)
+10. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Project Overview<a name="overview"></a>
 
@@ -81,7 +83,7 @@ C4           641
 <img src="https://user-images.githubusercontent.com/33558535/112030150-b8276e80-8b18-11eb-8564-7bbe8a464c09.png" alt="drawing" width="400"/>
 
 
-## HyperParameter Tuning <a name="tunning"></a>
+## HyperParameter Tuning <a name="tuning"></a>
 
 The fisrt model evaluated for the "base model" was a MobileNetv2. The model would not converge, even considering only around 30 classes.
 
@@ -89,7 +91,11 @@ After some research, I changed to a ResNetv2. Initially, I was able to achieve a
 
 After more research I realised the class unbalanced problem, that is, the dataset is severaly unbalanced. This issue was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
 
-The l2_regularizer (0.001) and the Dropout (20%) was defined after some trial-and-error (actually I think the l2 regularizer is not even necessary, but I forgot the delete it after so many tests).
+I know that I was supposed to use Adam as Optimizer, but I actually find SGD more easy to understand and tunne (particularly due to "decay parameter"). Theoretically, one could use Adam with no problems.
+
+For the learning rate, just the usual initial 0.01 and 0.01/5 or 0.01/10 for the tune and fine tune model.
+
+The l2_regularizer (0.001) and the Dropout (20%) was defined after some trial-and-error (actually I think the l2 regularizer is not even necessary, but I forgot the delete it after so many tests). Withouth the Dropout, the model overfits the training set around 70% (on the validation set).
 
 The final model takes about 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce GTX 1070 Ti).
 
@@ -235,16 +241,25 @@ The final model was able classify 129 different brazilian car models achieving a
 weighted avg       0.91      0.91      0.91     20698
 </pre>
 
-## Future Work <a name="app"></a>
+## Improvements <a name="improvements"></a>
 
-It is important to note that the model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this was due to the noise data for these models (i.e.: there are many different types of Gols in Brazil, as this has been one of the most popular cars in Brazil over the past 4 decades). Further experiments should separate these types into subtypes.
+In this project, hyperparameter tuning was done manually. A hypertunnning library (such as KerasTunner or Bayesian Optimization) should be used for further exploration. TensorBoard could also be handy here.
 
+The model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this was due to the noise data for these models (i.e.: there are many different types of Gols in Brazil, as this has been one of the most popular cars over the past 4 decades). Further experiments should separate these types into subtypes.
+
+A proper Deep Learning hardware (or Cloud Platform) should also be considered, as it takes very long (about 20 hours) to retrain after each minor change, which is very annoying.
 
 ## Web Application <a name="app"></a>
 
 A Web Application was developed to showcase the final model in production enviroment. This app can be accessed [here](https://deeplearning-brazilian-cars.appspot.com/). It may take a while (a couple of seconds) for the first access, because GAE keeps it "freezed" to save resources, and only "unfreeze" when needed. After tha initial load, it should run fine.
 
 ![image](https://user-images.githubusercontent.com/33558535/111924148-bf4f6d80-8a81-11eb-8149-47e34ded2790.png)
+
+## Conclusion <a name="conclusion"></a>
+
+In this project, a Deep Neural Network (DNN) was trained to classify brazilian car models. Our goal was basically to predict a brazilian car model given a full car picture. 
+The ResNet50v2 was used as a base model for Transfer Learning, and a Web Application was hosted on Google Cloud to showcase the final model in production environment.
+The final model was able classify 129 different models achieving a 91% average accuracy on test set.
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
