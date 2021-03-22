@@ -11,8 +11,8 @@ A deep learning project for brazilian cars classification using TensorFlow.
 5. [HyperParameter Tuning](#tuning)
 6. [Results](#results)
 7. [Improvements](#improvements)
-8. [Conclusion](#conclusion)
-9. [Web Application](#app)
+8. [Web Application](#app)
+9. [Conclusion](#conclusion)
 10. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Project Overview<a name="overview"></a>
