@@ -48,15 +48,19 @@ The required libraries are listed in the [requirements.txt](requirements.txt) fi
 
 - The app folder contains the WebApp related files.
 
-- The data folder contains some pictures that can be used to test the WebApp.
+- The data folder contains some pictures that can be used to test the WebApp (You can actually test with any brazilian car picture, given it is supported by the model. The list of supported car types is shown in the [Results](#results) section).
 
 - The app.yaml is used by GAE in production.
 
 ## Dataset <a name="dataset"></a>
 
-Our dataset contains 103.489 pictures of 129 different brazilian car types (train: 62093, valid: 20698, test: 20698).
+The dataset used in the project contains 103.489 pictures of 129 different brazilian car types (train: 62093, valid: 20698, test: 20698). 
 
-The dataset is severely unbalanced, ranging from 186 to 641 images for each car type. The table below shows the most extreme cases. The histogram presents the unbalanced situation:
+All images were resized to a 224x224 format. The figure below shows some examples. The data directory contains real examples used for evaluating the final model.
+
+![image](https://user-images.githubusercontent.com/33558535/112033825-97611800-8b1c-11eb-9aa6-3311dfff6674.png)
+
+This data is severely unbalanced, ranging from 186 to 641 images for each car type. The table below shows the most extreme cases. The histogram presents the unbalanced situation:
 
 <pre>
 Model        N_Images
@@ -79,6 +83,8 @@ C4           641
 ## Training Process <a name="results"></a>
 
 The model takes more than 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce GTX 1070 Ti).
+
+
 
 The class unbalanced problem was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
 
