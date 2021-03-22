@@ -61,7 +61,7 @@ The dataset used in the project contains 103.489 pictures of 129 different brazi
 
 All images were resized to a 224x224 format. The figure below shows some examples. The data directory contains real examples used for evaluating the final model.
 
-![image](https://user-images.githubusercontent.com/33558535/112033825-97611800-8b1c-11eb-9aa6-3311dfff6674.png)
+![image](./model/cars.png)
 
 This data is severely unbalanced, ranging from 186 to 641 images for each car type. The table below shows the most extreme cases. The histogram presents the unbalanced situation:
 
