@@ -8,9 +8,10 @@ A deep learning project for brazilian cars classification using TensorFlow.
 2. [Installation](#installation)
 3. [File Descriptions](#files)
 4. [Dataset](#dataset)
-5. [Results](#results)
-6. [Web Application](#app)
-7. [Licensing, Authors, and Acknowledgements](#licensing)
+5. [HyperParameter Tuning](#tunning)
+6. [Results](#results)
+7. [Web Application](#app)
+8. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Project Overview<a name="overview"></a>
 
@@ -80,13 +81,17 @@ C4           641
 <img src="https://user-images.githubusercontent.com/33558535/112030150-b8276e80-8b18-11eb-8564-7bbe8a464c09.png" alt="drawing" width="400"/>
 
 
-## Training Process <a name="results"></a>
+## HyperParameter Tuning <a name="tunning"></a>
 
-The model takes more than 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce GTX 1070 Ti).
+The fisrt model evaluated for the "base model" was a MobileNetv2. The model would not converge, even considering only around 30 classes.
 
+After some research, I changed to a ResNetv2. Initially, I was able to achieve around 60% accuracy, but not more than that.
 
+After more research I realised the class unbalanced problem, that is, the dataset is severaly unbalanced. This issue was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
 
-The class unbalanced problem was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
+The l2_regularizer (0.001) and the Dropout (20%) was defined after some trial-and-error (actually I think the l2 regularizer is not even necessary, but I forgot the delete it after so many tests).
+
+The final model takes about 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce GTX 1070 Ti).
 
 ## Results <a name="results"></a>
 
