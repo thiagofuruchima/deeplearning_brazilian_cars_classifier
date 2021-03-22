@@ -54,9 +54,9 @@ The required libraries are listed in the [requirements.txt](requirements.txt) fi
 
 ## Dataset <a name="dataset"></a>
 
-Our dataset contains 103.489 brazilian car pictures (train: 62093, valid: 20698, test: 20698) of 129 different car types.
+Our dataset contains 103.489 pictures of 129 different brazilian car types (train: 62093, valid: 20698, test: 20698).
 
-The dataset is severely unbalanced. The table below shows the most extreme cases (train set):
+The dataset is severely unbalanced, ranging from 186 to 641 images for each car type. The table below shows the most extreme cases. The histogram presents the unbalanced situation:
 
 <pre>
 Model        N_Images
@@ -73,9 +73,14 @@ ETIOS        631
 C4           641
 </pre>
 
+![image](https://user-images.githubusercontent.com/33558535/112029946-844c4900-8b18-11eb-9f06-3c2647a7610d.png)
+
+
 ## Training Process <a name="results"></a>
 
 The model takes more than 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce GTX 1070 Ti).
+
+
 
 The class unbalenced problem was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
 
@@ -240,4 +245,4 @@ Credits to [CVPR 2015](https://arxiv.org/abs/1512.03385) for the ResNet and [Ker
 
 This is a student's project, take a look at the [MIT Licence](LICENSE) before using elsewhere.
 
-The data used for this project is not available for public download.
+The dataset used for this project is not available for public download.
