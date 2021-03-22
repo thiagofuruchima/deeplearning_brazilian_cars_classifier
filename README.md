@@ -7,9 +7,10 @@ A deep learning project for brazilian cars classification using TensorFlow.
 1. [Project Overview](#overview)
 2. [Installation](#installation)
 3. [File Descriptions](#files)
-4. [Results](#results)
-5. [Web Application](#app)
-6. [Licensing, Authors, and Acknowledgements](#licensing)
+4. [Dataset](#dataset)
+5. [Results](#results)
+6. [Web Application](#app)
+7. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Project Overview<a name="overview"></a>
 
@@ -26,6 +27,7 @@ DNN Model:
 
 WebApp:
 - Flask for WebDev;
+- Bootstrap 5.0 for Framework;
 - SQLite for Database;
 
 Production Environment:
@@ -50,9 +52,38 @@ The required libraries are listed in the [requirements.txt](requirements.txt) fi
 
 - The app.yaml is used by GAE in production.
 
+## Dataset <a name="dataset"></a>
+
+Our dataset contains 103.489 brazilian car pictures (train: 62093, valid: 20698, test: 20698) of 129 different car types.
+
+The dataset is severely unbalanced. The table below shows the most extreme cases (train set):
+
+<pre>
+Model        N_Images
+A4           186
+DUCATO       189
+PASSAT       191
+C4 CACTUS    192
+T-4          192
+            ... 
+CLIO         622
+STRADA       624
+CELTA        625
+ETIOS        631
+C4           641
+</pre>
+
+## Training Process <a name="results"></a>
+
+The model takes more than 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce GTX 1070 Ti).
+
+The class unbalenced problem was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
+
+
+
 ## Results <a name="results"></a>
 
-The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" is shown below:
+The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" is shown below.
 
 <pre>
  precision    recall  f1-score   support
@@ -192,11 +223,14 @@ The final model was able classify 129 different brazilian car models achieving a
 weighted avg       0.91      0.91      0.91     20698
 </pre>
 
-It is important to note that the developed model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this low score was due to the high noise data for these models (there are many different types of Goals in Brazil, as this is one of the most popular cars in the last 4 decades). Further experiments should separate these types into subtypes.
+## Future Work <a name="app"></a>
+
+It is important to note that the developed model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this low score was due to the high noise data for these models (there are many different types of Gols in Brazil, as this is one of the most popular cars for the past 4 decades). Further experiments should separate these types into subtypes.
+
 
 ## Web Application <a name="app"></a>
 
-A Web Application was developed to showcase the final model in production enviroment. This app can be accessed [here](https://deeplearning-brazilian-cars.appspot.com/).
+A Web Application was developed to showcase the final model in production enviroment. This app can be accessed [here](https://deeplearning-brazilian-cars.appspot.com/). It may take a while (a couple of seconds) for the first access, because GAE keeps it "freezed" to save resources, and only "unfreeze" when needed. After tha initial load, it should run fine.
 
 ![image](https://user-images.githubusercontent.com/33558535/111924148-bf4f6d80-8a81-11eb-8149-47e34ded2790.png)
 
