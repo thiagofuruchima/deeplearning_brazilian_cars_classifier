@@ -255,9 +255,7 @@ A Web Application was developed to showcase the final model in production enviro
 
 ## Conclusion <a name="conclusion"></a>
 
-In this project, a Deep Neural Network (DNN) was trained to classify brazilian car models. Our goal was basically to predict a brazilian car model given a full car picture. 
-The ResNet50v2 was used as a base model for Transfer Learning, and a Web Application was hosted on Google Cloud to showcase the final model in production environment.
-The final model was able classify 129 different models achieving a 91% average accuracy on test set.
+In this project, a Deep Neural Network (DNN) was trained to classify brazilian car models. Our goal was basically to predict a brazilian car model given a full car picture. The final model was able classify 129 different models achieving a 91% average accuracy on test set.
 
 Particularly, I find it really interesting how well the model performed given this is a real world dataset (not a reasearch, or prepared dataset). For instance, it can distinguish car models better than me :D
 
