@@ -7,9 +7,13 @@ A deep learning project for brazilian cars classification using TensorFlow.
 1. [Project Overview](#overview)
 2. [Installation](#installation)
 3. [File Descriptions](#files)
-4. [Results](#results)
-5. [Web Application](#app)
-6. [Licensing, Authors, and Acknowledgements](#licensing)
+4. [Dataset](#dataset)
+5. [HyperParameter Tuning](#tuning)
+6. [Results](#results)
+7. [Improvements](#improvements)
+8. [Web Application](#app)
+9. [Conclusion](#conclusion)
+10. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Project Overview<a name="overview"></a>
 
@@ -26,6 +30,7 @@ DNN Model:
 
 WebApp:
 - Flask for WebDev;
+- Bootstrap 5.0 for Framework;
 - SQLite for Database;
 
 Production Environment:
@@ -46,13 +51,55 @@ The required libraries are listed in the [requirements.txt](requirements.txt) fi
 
 - The app folder contains the WebApp related files.
 
-- The data folder contains some pictures that can be used to test the WebApp.
+- The data folder contains some pictures that can be used to test the WebApp (You can actually test with any brazilian car picture, given it is supported by the model. The list of supported car types is shown in the [Results](#results) section).
 
 - The app.yaml is used by GAE in production.
 
+## Dataset <a name="dataset"></a>
+
+The dataset used in the project contains 103.489 pictures of 129 different brazilian car types (train: 62093, valid: 20698, test: 20698). 
+
+All images were resized to a 224x224 format. The figure below shows some examples. Real pictures used for evaluating the final model can be found in the "data" folder.
+
+![image](./model/cars.png)
+
+This data is severely unbalanced, ranging from 186 to 641 images for each car type. The table below shows the most extreme cases:
+
+<pre>
+Model        N_Images
+A4           186
+DUCATO       189
+PASSAT       191
+C4 CACTUS    192
+T-4          192
+            ... 
+CLIO         622
+STRADA       624
+CELTA        625
+ETIOS        631
+C4           641
+</pre>
+
+
+## HyperParameter Tuning <a name="tuning"></a>
+
+The first model evaluated for the "base model" was a MobileNetv2. The model would not converge, even considering only around 30 classes.
+
+After some research, I changed to a ResNetv2. Initially, I was able to achieve around 60% accuracy, but not more than that.
+
+After more research I realized that the dataset was severaly unbalanced. This issue was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
+
+As for the optimizer, I was supposed to use Adam, but I actually find SGD more easy to understand and tunne (particularly due to "decay parameter"). Theoretically, both would work.
+
+For the learning rate, just the usual initial 0.01 and 0.01/5 or 0.01/10 for the tune and fine tuned model.
+
+The l2_regularizer (0.001) and the Dropout (20%) was defined after some trial-and-error (actually I think the l2 regularizer is not even necessary, but I forgot the delete it after so many tests). Withouth the Dropout, the model overfits the training set around 70% (on the validation set).
+
+The final model takes about 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce GTX 1070 Ti).
+
 ## Results <a name="results"></a>
 
-The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" is shown below:
+The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" is shown below.
 
 <pre>
  precision    recall  f1-score   support
@@ -192,13 +239,25 @@ The final model was able classify 129 different brazilian car models achieving a
 weighted avg       0.91      0.91      0.91     20698
 </pre>
 
-It is important to note that the developed model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this low score was due to the high noise data for these models (there are many different types of Goals in Brazil, as this is one of the most popular cars in the last 4 decades). Further experiments should separate these types into subtypes.
+## Improvements <a name="improvements"></a>
+
+In this project, hyperparameter tuning was done manually. A hypertunnning library (such as KerasTunner or Bayesian Optimization) should be used for further exploration. TensorBoard could also be handy here.
+
+The model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this was due to the noise data for these models (i.e.: there are many different types of Gols in Brazil, as this has been one of the most popular cars over the past 4 decades). Further experiments should separate these types into subtypes.
+
+A proper Deep Learning hardware (or Cloud Platform) should also be considered, as it takes very long (about 20 hours) to retrain after each minor change, which is very annoying.
 
 ## Web Application <a name="app"></a>
 
-A Web Application was developed to showcase the final model in production enviroment. This app can be accessed [here](https://deeplearning-brazilian-cars.appspot.com/).
+A Web Application was developed to showcase the final model in production enviroment. This app can be accessed [here](https://deeplearning-brazilian-cars.appspot.com/). It may take a while (a couple of seconds) for the first access, because GAE keeps it "freezed" to save resources, and only "unfreeze" when needed. After tha initial load, it should run fine.
 
 ![image](https://user-images.githubusercontent.com/33558535/111924148-bf4f6d80-8a81-11eb-8149-47e34ded2790.png)
+
+## Conclusion <a name="conclusion"></a>
+
+In this project, a Deep Neural Network (DNN) was trained to classify brazilian car models. Our goal was basically to predict a brazilian car model given a full car picture. The final model was able classify 129 different models achieving a 91% average accuracy on test set.
+
+Particularly, I find it really interesting how well the model performed given this is a real world dataset (not a reasearch, or prepared dataset). For instance, it can distinguish car models better than me :D
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
@@ -206,4 +265,4 @@ Credits to [CVPR 2015](https://arxiv.org/abs/1512.03385) for the ResNet and [Ker
 
 This is a student's project, take a look at the [MIT Licence](LICENSE) before using elsewhere.
 
-The data used for this project is not available for public download.
+The dataset used for this project is not available for public download.
