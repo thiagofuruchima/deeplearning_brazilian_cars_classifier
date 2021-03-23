@@ -59,11 +59,11 @@ The required libraries are listed in the [requirements.txt](requirements.txt) fi
 
 The dataset used in the project contains 103.489 pictures of 129 different brazilian car types (train: 62093, valid: 20698, test: 20698). 
 
-All images were resized to a 224x224 format. The figure below shows some examples. The data directory contains real examples used for evaluating the final model.
+All images were resized to a 224x224 format. The figure below shows some examples. Real pictures used for evaluating the final model can be found in the "data" folder.
 
 ![image](./model/cars.png)
 
-This data is severely unbalanced, ranging from 186 to 641 images for each car type. The table below shows the most extreme cases. The histogram presents the unbalanced situation:
+This data is severely unbalanced, ranging from 186 to 641 images for each car type. The table below shows the most extreme cases:
 
 <pre>
 Model        N_Images
@@ -80,20 +80,18 @@ ETIOS        631
 C4           641
 </pre>
 
-<img src="https://user-images.githubusercontent.com/33558535/112030150-b8276e80-8b18-11eb-8564-7bbe8a464c09.png" alt="drawing" width="400"/>
-
 
 ## HyperParameter Tuning <a name="tuning"></a>
 
-The fisrt model evaluated for the "base model" was a MobileNetv2. The model would not converge, even considering only around 30 classes.
+The first model evaluated for the "base model" was a MobileNetv2. The model would not converge, even considering only around 30 classes.
 
 After some research, I changed to a ResNetv2. Initially, I was able to achieve around 60% accuracy, but not more than that.
 
-After more research I realised the class unbalanced problem, that is, the dataset is severaly unbalanced. This issue was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
+After more research I realized that the dataset was severaly unbalanced. This issue was solved using the class_weight parameter in model.fit(), which applies the given weight when computing the losses in each step of BackPropagation.
 
-I know that I was supposed to use Adam as Optimizer, but I actually find SGD more easy to understand and tunne (particularly due to "decay parameter"). Theoretically, one could use Adam with no problems.
+As for the optimizer, I was supposed to use Adam, but I actually find SGD more easy to understand and tunne (particularly due to "decay parameter"). Theoretically, both would work.
 
-For the learning rate, just the usual initial 0.01 and 0.01/5 or 0.01/10 for the tune and fine tune model.
+For the learning rate, just the usual initial 0.01 and 0.01/5 or 0.01/10 for the tune and fine tuned model.
 
 The l2_regularizer (0.001) and the Dropout (20%) was defined after some trial-and-error (actually I think the l2 regularizer is not even necessary, but I forgot the delete it after so many tests). Withouth the Dropout, the model overfits the training set around 70% (on the validation set).
 
