@@ -99,7 +99,7 @@ The final model takes about 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce G
 
 ## Results <a name="results"></a>
 
-The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" is shown below.
+The final model was able classify 190 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" is shown below.
 
 <pre>
                             precision    recall  f1-score   support
