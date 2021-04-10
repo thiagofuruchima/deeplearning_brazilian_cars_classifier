@@ -57,27 +57,27 @@ The required libraries are listed in the [requirements.txt](requirements.txt) fi
 
 ## Dataset <a name="dataset"></a>
 
-The dataset used in the project contains 103.489 pictures of 129 different brazilian car types (train: 62093, valid: 20698, test: 20698). 
+The dataset used in the project contains 208.530 pictures of 190 different brazilian car types (train: 145.971, valid: 31.279, test: 31.280). 
 
 All images were resized to a 224x224 format. The figure below shows some examples. Real pictures used for evaluating the final model can be found in the "data" folder.
 
 ![image](./model/cars.png)
 
-This data is severely unbalanced, ranging from 186 to 641 images for each car type. The table below shows the most extreme cases:
+This data is severely unbalanced, ranging from 204 to 1099 images for each car type. The table below shows the most extreme cases:
 
 <pre>
 Model        N_Images
-A4           186
-DUCATO       189
-PASSAT       191
-C4 CACTUS    192
-T-4          192
-            ... 
-CLIO         622
-STRADA       624
-CELTA        625
-ETIOS        631
-C4           641
+PEUGEOT 307                 1099
+TOYOTA COROLLA              1094
+MERCEDES-BENZ C-180         1083
+NISSAN KICKS                1081
+GM - CHEVROLET VECTRA       1080
+                            ... 
+TOYOTA FIELDER               211
+MITSUBISHI ECLIPSE CROSS     209
+VW - VOLKSWAGEN BRASILIA     206
+CHERY TIGGO 2                205
+BMW X6                       204
 </pre>
 
 
@@ -93,7 +93,7 @@ As for the optimizer, I was supposed to use Adam, but I actually find SGD more e
 
 For the learning rate, just the usual initial 0.01 and 0.01/5 or 0.01/10 for the tune and fine tuned model.
 
-The l2_regularizer (0.001) and the Dropout (20%) was defined after some trial-and-error (actually I think the l2 regularizer is not even necessary, but I forgot the delete it after so many tests). Withouth the Dropout, the model overfits the training set around 70% (on the validation set).
+The l2_regularizer (0.001) and the Dropout (10%) was defined after some trial-and-error (actually I think the l2 regularizer is not even necessary, but I forgot the delete it after so many tests). Withouth the Dropout, the model overfits the training set around 70% (on the validation set).
 
 The final model takes about 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce GTX 1070 Ti).
 
@@ -102,148 +102,207 @@ The final model takes about 20 hours to converge (i7, 32Gb, 8Gb NVIDIA GeForce G
 The final model was able classify 129 different brazilian car models achieving a 91% average accuracy on test set. The full "Classification Report" is shown below.
 
 <pre>
- precision    recall  f1-score   support
+                            precision    recall  f1-score   support
 
-        2008       0.98      0.96      0.97       125
-         206       0.92      0.94      0.93       167
-         207       0.96      0.97      0.96       198
-         208       0.98      0.96      0.97       200
-         307       0.97      0.89      0.93       124
-         308       0.97      0.95      0.96       119
-        320I       0.85      0.94      0.89       135
-         408       0.95      0.96      0.96        80
-         500       0.97      1.00      0.99        74
-          A3       0.86      0.87      0.87       202
-          A4       0.76      0.71      0.73        78
-       AGILE       0.94      0.96      0.95       198
-    AIRCROSS       0.91      0.98      0.94       156
-      AMAROK       0.98      0.97      0.98       188
-        ARGO       0.98      0.97      0.98       191
-       ASTRA       0.95      0.92      0.94       221
-         ASX       0.95      0.96      0.96       107
-       BRAVO       0.92      0.93      0.92        71
-       C-180       0.91      0.95      0.93       152
-          C3       0.94      0.94      0.94       217
-          C4       0.93      0.91      0.92       188
-   C4 CACTUS       0.97      0.95      0.96        65
-     CAPTIVA       0.96      0.96      0.96        91
-      CAPTUR       1.00      1.00      1.00       202
-       CELTA       0.88      0.89      0.89       177
-      CERATO       0.82      0.87      0.84        75
-        CITY       0.93      0.94      0.94       208
-       CIVIC       0.89      0.89      0.89       196
-     CLASSIC       0.82      0.86      0.84       218
-        CLIO       0.94      0.92      0.93       188
-      COBALT       0.97      0.97      0.97       192
-     COMPASS       0.99      0.98      0.99       192
-      COOPER       0.96      1.00      0.98        77
-     COROLLA       0.90      0.89      0.90       191
-       CORSA       0.77      0.75      0.76       205
-        CR-V       0.98      0.97      0.98       131
-       CRETA       0.95      0.99      0.97       159
-      CRONOS       0.89      0.94      0.92        71
-    CROSSFOX       0.94      0.94      0.94       156
-       CRUZE       0.97      0.92      0.94       216
-       DOBLO       0.99      0.98      0.98       211
-      DUCATO       0.92      0.94      0.93        65
-      DUSTER       0.99      0.97      0.98       205
-    ECOSPORT       0.93      0.97      0.95       192
-      ESCORT       0.82      0.67      0.74        69
-       ETIOS       0.97      0.96      0.96       197
-      FIESTA       0.94      0.93      0.93       201
-     FIORINO       0.97      0.94      0.95       189
-         FIT       0.92      0.97      0.94       186
-     FLUENCE       1.00      0.91      0.95       101
-       FOCUS       0.93      0.95      0.94       190
-         FOX       0.90      0.79      0.84       206
-    FRONTIER       0.97      0.91      0.94       159
-       FUSCA       0.95      0.99      0.97       212
-      FUSION       0.94      0.96      0.95       200
-         GOL       0.60      0.66      0.63       192
-        GOLF       0.87      0.89      0.88       209
- GRAND SIENA       0.91      0.96      0.94       208
-        HB20       0.85      0.78      0.81       209
-       HB20S       0.79      0.86      0.82       187
-       HB20X       0.97      0.89      0.93        75
-       HILUX       0.97      0.94      0.95       179
-        HR-V       0.96      0.99      0.97       218
-         I30       0.93      0.92      0.92       153
-        IDEA       0.96      0.99      0.97       179
-        IX35       0.94      0.97      0.95       165
-       JETTA       0.93      0.89      0.91       200
-         JOY       0.75      0.82      0.79       190
-          KA       0.85      0.84      0.85       200
-         KA+       0.88      0.87      0.88       139
-       KICKS       1.00      0.98      0.99       185
-       KOMBI       0.98      0.98      0.98       108
-        KWID       1.00      0.99      0.99       230
-        L200       0.89      0.92      0.90       229
-       LINEA       0.99      0.91      0.95        78
-      LIVINA       0.93      0.91      0.92        75
-       LOGAN       0.86      0.95      0.90       189
-       MARCH       0.96      0.99      0.97       166
-      MASTER       0.96      0.95      0.96        85
-      MEGANE       0.93      0.94      0.94       143
-      MERIVA       0.98      0.94      0.96       138
-        MOBI       1.00      0.99      0.99       224
-     MONTANA       0.95      0.91      0.93       173
-       MONZA       0.81      0.85      0.83        60
-       NIVUS       0.97      0.99      0.98        84
-        ONIX       0.63      0.56      0.59       209
-       OPALA       0.90      0.90      0.90        79
-   OUTLANDER       0.89      0.92      0.90       121
-      PAJERO       0.90      0.94      0.92       188
-       PALIO       0.81      0.78      0.80       195
-      PARATI       0.72      0.83      0.77       162
-      PASSAT       0.82      0.76      0.79        90
-     PICANTO       0.98      0.96      0.97        92
-        POLO       0.76      0.81      0.78       188
-      PRISMA       0.79      0.70      0.74       192
-       PUNTO       0.96      0.96      0.96       191
-          Q3       0.94      0.94      0.94        79
- RANGE ROVER       0.98      0.95      0.96       185
-      RANGER       0.91      0.93      0.92       193
-    RENEGADE       1.00      0.99      1.00       187
-         S10       0.95      0.91      0.93       211
-     SANDERO       0.92      0.88      0.90       205
-    SANTA FE       0.96      0.83      0.89        89
-     SANTANA       0.72      0.84      0.77        92
-     SAVEIRO       0.84      0.85      0.84       208
-      SENTRA       0.90      0.95      0.92       161
-       SIENA       0.75      0.71      0.73       182
-     SORENTO       0.95      0.89      0.92        82
-    SPACEFOX       0.75      0.92      0.82       130
-        SPIN       0.99      0.96      0.97       213
-    SPORTAGE       0.96      0.91      0.94       179
-    SPRINTER       0.96      0.96      0.96       121
-      STRADA       0.96      0.93      0.94       193
-         T-4       0.97      1.00      0.99        68
-     T-CROSS       0.97      1.00      0.98       222
-      TIGUAN       0.93      0.96      0.94       139
-        TORO       0.99      0.99      0.99       202
-     TRACKER       0.96      0.96      0.96       186
-      TUCSON       0.96      0.96      0.96       192
-         UNO       0.88      0.95      0.91       206
-         UP!       0.99      0.98      0.98       215
-      VECTRA       0.87      0.88      0.88       199
-       VERSA       0.97      0.95      0.96       205
-      VIRTUS       0.91      0.82      0.86       205
-      VOYAGE       0.76      0.70      0.73       207
-          X1       0.89      0.97      0.93        96
-       XSARA       0.95      0.98      0.97       100
-       YARIS       0.99      0.92      0.95        84
-      ZAFIRA       0.96      0.92      0.94       101
+                   AUDI A3       0.90      0.86      0.88       240
+                   AUDI A4       0.76      0.81      0.78       108
+                   AUDI A5       0.77      0.85      0.81        80
+                   AUDI Q3       0.97      0.96      0.97       161
+                  BMW 320I       0.87      0.84      0.85       231
+                  BMW 328I       0.51      0.63      0.56        52
+                    BMW X1       0.96      0.93      0.95       230
+                    BMW X3       0.87      0.92      0.89        64
+                    BMW X5       0.76      0.92      0.83        51
+                    BMW X6       0.94      0.83      0.88        53
+                  CHERY QQ       0.98      0.98      0.98        43
+             CHERY TIGGO 2       0.98      0.98      0.98        44
+          CITROEN AIRCROSS       0.97      0.98      0.97       215
+                CITROEN C3       0.96      0.96      0.96       212
+                CITROEN C4       0.96      0.91      0.93       250
+         CITROEN C4 CACTUS       0.95      0.98      0.96       108
+             CITROEN XSARA       0.92      0.95      0.93       143
+             DODGE JOURNEY       0.77      0.82      0.79        66
+                 DODGE RAM       0.89      0.89      0.89        44
+                  FIAT 500       0.96      0.98      0.97       136
+                 FIAT ARGO       0.97      0.99      0.98       236
+                FIAT BRAVO       0.92      0.95      0.93       147
+               FIAT CRONOS       0.95      0.97      0.96       168
+                FIAT DOBLO       0.99      1.00      0.99       205
+               FIAT DUCATO       0.96      0.93      0.94       137
+              FIAT FIORINO       0.96      0.97      0.96       244
+             FIAT FREEMONT       0.89      0.86      0.87       118
+          FIAT GRAND SIENA       0.92      0.97      0.95       241
+                 FIAT IDEA       0.96      0.96      0.96       247
+                FIAT LINEA       0.97      0.98      0.98       182
+                 FIAT MOBI       0.98      0.99      0.98       206
+                FIAT PALIO       0.85      0.79      0.82       227
+                FIAT PUNTO       0.97      0.97      0.97       237
+                FIAT SIENA       0.82      0.83      0.82       227
+                FIAT STILO       0.95      0.96      0.95       137
+               FIAT STRADA       0.92      0.94      0.93       235
+                 FIAT TORO       0.98      0.98      0.98       248
+                  FIAT UNO       0.93      0.94      0.93       238
+             FORD ECOSPORT       0.98      0.94      0.96       216
+                 FORD EDGE       0.98      0.92      0.95        62
+               FORD ESCORT       0.92      0.86      0.89       161
+               FORD F-1000       0.88      0.96      0.92        52
+                FORD F-250       0.93      0.88      0.90        75
+               FORD FIESTA       0.95      0.89      0.92       218
+                FORD FOCUS       0.95      0.94      0.95       214
+               FORD FUSION       0.95      0.93      0.94       208
+                   FORD KA       0.91      0.86      0.88       238
+                  FORD KA+       0.88      0.92      0.90       223
+               FORD RANGER       0.92      0.91      0.92       247
+      GM - CHEVROLET AGILE       0.97      0.97      0.97       244
+      GM - CHEVROLET ASTRA       0.93      0.90      0.91       239
+     GM - CHEVROLET BLAZER       0.80      0.84      0.82        70
+     GM - CHEVROLET CAMARO       0.94      0.95      0.94        63
+    GM - CHEVROLET CAPTIVA       0.97      0.98      0.98       199
+    GM - CHEVROLET CARAVAN       0.65      0.71      0.68        52
+      GM - CHEVROLET CELTA       0.86      0.91      0.88       219
+   GM - CHEVROLET CHEVETTE       0.76      0.90      0.83        87
+    GM - CHEVROLET CLASSIC       0.88      0.86      0.87       218
+     GM - CHEVROLET COBALT       0.96      0.96      0.96       236
+      GM - CHEVROLET CORSA       0.78      0.78      0.78       215
+      GM - CHEVROLET CRUZE       0.90      0.92      0.91       217
+       GM - CHEVROLET D-20       0.88      0.86      0.87        51
+        GM - CHEVROLET JOY       0.84      0.83      0.84       230
+     GM - CHEVROLET KADETT       0.95      0.89      0.92        98
+     GM - CHEVROLET MERIVA       0.97      0.98      0.97       217
+    GM - CHEVROLET MONTANA       0.97      0.96      0.96       212
+      GM - CHEVROLET MONZA       0.81      0.90      0.85       133
+      GM - CHEVROLET OMEGA       0.88      0.91      0.89        75
+       GM - CHEVROLET ONIX       0.75      0.69      0.71       232
+      GM - CHEVROLET OPALA       0.83      0.79      0.81       142
+     GM - CHEVROLET PRISMA       0.78      0.79      0.79       231
+        GM - CHEVROLET S10       0.91      0.87      0.89       239
+      GM - CHEVROLET SONIC       0.95      0.96      0.95        54
+       GM - CHEVROLET SPIN       0.99      0.97      0.98       218
+    GM - CHEVROLET TRACKER       0.97      0.97      0.97       205
+GM - CHEVROLET TRAILBLAZER       0.90      0.90      0.90        94
+     GM - CHEVROLET VECTRA       0.93      0.88      0.91       211
+     GM - CHEVROLET ZAFIRA       0.95      0.98      0.97       186
+                HONDA CITY       0.93      0.93      0.93       229
+               HONDA CIVIC       0.92      0.91      0.92       241
+                HONDA CR-V       0.99      0.98      0.98       220
+                 HONDA FIT       0.96      0.95      0.95       231
+                HONDA HR-V       0.96      0.99      0.98       222
+                HONDA WR-V       0.99      0.98      0.98       100
+             HYUNDAI AZERA       0.89      0.97      0.93        97
+             HYUNDAI CRETA       0.97      1.00      0.98       217
+           HYUNDAI ELANTRA       0.93      0.95      0.94        98
+              HYUNDAI HB20       0.81      0.68      0.74       223
+             HYUNDAI HB20S       0.76      0.88      0.82       244
+             HYUNDAI HB20X       0.94      0.92      0.93       154
+                HYUNDAI HR       0.91      0.97      0.94        62
+               HYUNDAI I30       0.97      0.93      0.95       245
+              HYUNDAI IX35       0.99      0.97      0.98       226
+          HYUNDAI SANTA FE       0.96      0.95      0.96       188
+            HYUNDAI SONATA       0.90      0.98      0.93        44
+            HYUNDAI TUCSON       0.95      0.98      0.96       212
+          HYUNDAI VELOSTER       0.90      0.94      0.92        47
+                    JAC J3       0.96      0.96      0.96        71
+             JEEP CHEROKEE       0.86      0.80      0.83        45
+              JEEP COMPASS       0.98      0.99      0.99       222
+       JEEP GRAND CHEROKEE       0.90      0.89      0.90        74
+             JEEP RENEGADE       0.99      1.00      1.00       214
+         KIA MOTORS CERATO       0.88      0.91      0.89       163
+        KIA MOTORS PICANTO       0.97      0.97      0.97       145
+        KIA MOTORS SORENTO       0.98      0.95      0.96       148
+           KIA MOTORS SOUL       0.98      0.99      0.99       104
+       KIA MOTORS SPORTAGE       0.96      0.95      0.95       221
+      LAND ROVER DISCOVERY       0.95      0.91      0.93       115
+     LAND ROVER DISCOVERY4       0.93      0.98      0.96        98
+    LAND ROVER FREELANDER2       0.97      0.93      0.95        82
+    LAND ROVER RANGE ROVER       0.95      0.95      0.95       244
+                 LIFAN X60       0.96      0.98      0.97        50
+       MERCEDES-BENZ A-200       0.82      0.85      0.84        54
+       MERCEDES-BENZ C-180       0.74      0.67      0.70       194
+       MERCEDES-BENZ C-200       0.48      0.58      0.52        76
+       MERCEDES-BENZ C-250       0.62      0.80      0.70        46
+    MERCEDES-BENZ CLASSE A       0.79      0.79      0.79        68
+         MERCEDES-BENZ GLA       0.96      0.98      0.97        94
+    MERCEDES-BENZ SPRINTER       0.97      0.95      0.96       195
+               MINI COOPER       0.97      1.00      0.98       149
+            MITSUBISHI ASX       0.98      0.96      0.97       222
+  MITSUBISHI ECLIPSE CROSS       0.95      0.93      0.94        44
+           MITSUBISHI L200       0.86      0.94      0.90       216
+         MITSUBISHI LANCER       0.98      0.93      0.95        98
+      MITSUBISHI OUTLANDER       0.94      0.94      0.94       180
+         MITSUBISHI PAJERO       0.87      0.82      0.85       225
+   MITSUBISHI PAJERO SPORT       0.57      0.70      0.63        46
+           NISSAN FRONTIER       0.95      0.90      0.93       242
+              NISSAN KICKS       0.99      0.99      0.99       208
+             NISSAN LIVINA       0.98      0.99      0.98       183
+              NISSAN MARCH       0.97      0.99      0.98       234
+             NISSAN SENTRA       0.94      0.93      0.94       206
+              NISSAN TIIDA       0.99      0.98      0.99       117
+              NISSAN VERSA       0.97      0.96      0.96       237
+              PEUGEOT 2008       0.99      0.98      0.98       222
+               PEUGEOT 206       0.95      0.90      0.93       244
+               PEUGEOT 207       0.93      0.94      0.94       221
+               PEUGEOT 208       0.97      0.95      0.96       214
+              PEUGEOT 3008       0.97      0.96      0.96        93
+               PEUGEOT 307       0.93      0.95      0.94       195
+               PEUGEOT 308       0.96      0.96      0.96       201
+               PEUGEOT 408       0.95      0.96      0.95       156
+           PORSCHE CAYENNE       0.85      0.98      0.91        52
+            RENAULT CAPTUR       0.99      1.00      0.99       204
+              RENAULT CLIO       0.93      0.93      0.93       227
+            RENAULT DUSTER       0.97      0.97      0.97       200
+           RENAULT FLUENCE       0.96      0.97      0.96       180
+              RENAULT KWID       1.00      0.96      0.98       249
+             RENAULT LOGAN       0.90      0.90      0.90       254
+            RENAULT MASTER       0.95      0.97      0.96       201
+            RENAULT MEGANE       0.97      0.95      0.96       235
+           RENAULT SANDERO       0.81      0.75      0.78       234
+            RENAULT SCENIC       0.96      0.96      0.96       113
+           RENAULT STEPWAY       0.55      0.64      0.59        53
+            RENAULT SYMBOL       0.92      0.97      0.94        60
+       SUZUKI GRAND VITARA       0.94      0.97      0.96        88
+              SUZUKI JIMNY       0.99      1.00      0.99        74
+             SUZUKI VITARA       0.92      0.89      0.90        37
+            TOYOTA COROLLA       0.90      0.92      0.91       206
+              TOYOTA ETIOS       0.97      0.98      0.98       220
+            TOYOTA FIELDER       0.79      0.91      0.85        46
+              TOYOTA HILUX       0.97      0.93      0.95       215
+               TOYOTA RAV4       0.94      0.92      0.93        96
+              TOYOTA YARIS       0.99      0.97      0.98       205
+               TROLLER T-4       0.98      0.99      0.99       120
+                  VOLVO XC       0.66      0.71      0.69        77
+               VOLVO XC-60       0.68      0.64      0.66        72
+    VW - VOLKSWAGEN AMAROK       0.97      0.97      0.97       212
+      VW - VOLKSWAGEN BORA       0.94      0.94      0.94        52
+  VW - VOLKSWAGEN BRASILIA       0.87      0.85      0.86        46
+  VW - VOLKSWAGEN CROSSFOX       0.97      0.94      0.95       213
+       VW - VOLKSWAGEN FOX       0.86      0.82      0.84       228
+     VW - VOLKSWAGEN FUSCA       0.96      0.96      0.96       223
+       VW - VOLKSWAGEN GOL       0.64      0.63      0.64       202
+      VW - VOLKSWAGEN GOLF       0.92      0.91      0.91       243
+     VW - VOLKSWAGEN JETTA       0.88      0.91      0.90       204
+     VW - VOLKSWAGEN KOMBI       0.98      0.97      0.97       221
+       VW - VOLKSWAGEN NEW       0.96      0.98      0.97        53
+     VW - VOLKSWAGEN NIVUS       0.97      0.98      0.97       136
+    VW - VOLKSWAGEN PARATI       0.78      0.82      0.80       251
+    VW - VOLKSWAGEN PASSAT       0.85      0.86      0.86       155
+      VW - VOLKSWAGEN POLO       0.84      0.77      0.81       238
+   VW - VOLKSWAGEN SANTANA       0.85      0.86      0.86       148
+   VW - VOLKSWAGEN SAVEIRO       0.91      0.91      0.91       223
+  VW - VOLKSWAGEN SPACEFOX       0.86      0.88      0.87       210
+   VW - VOLKSWAGEN T-CROSS       0.98      0.99      0.98       225
+    VW - VOLKSWAGEN TIGUAN       0.94      0.96      0.95       213
+       VW - VOLKSWAGEN UP!       0.98      0.99      0.99       234
+    VW - VOLKSWAGEN VIRTUS       0.85      0.88      0.87       227
+    VW - VOLKSWAGEN VOYAGE       0.81      0.82      0.82       217
 
-    accuracy                           0.91     20698
-   macro avg       0.92      0.91      0.91     20698
-weighted avg       0.91      0.91      0.91     20698
+                  accuracy                           0.92     31280
+                 macro avg       0.91      0.91      0.91     31280
+              weighted avg       0.92      0.92      0.92     31280
 </pre>
 
 ## Improvements <a name="improvements"></a>
 
 In this project, hyperparameter tuning was done manually. A hypertunnning library (such as KerasTunner or Bayesian Optimization) should be used for further exploration. TensorBoard could also be handy here.
-
-The model performed very poorly for some types, such as Gol (60%). After evaluation, I concluded that this was due to the noise data for these models (i.e.: there are many different types of Gols in Brazil, as this has been one of the most popular cars over the past 4 decades). Further experiments should separate these types into subtypes.
 
 A proper Deep Learning hardware (or Cloud Platform) should also be considered, as it takes very long (about 20 hours) to retrain after each minor change, which is very annoying.
 
@@ -255,7 +314,7 @@ A Web Application was developed to showcase the final model in production enviro
 
 ## Conclusion <a name="conclusion"></a>
 
-In this project, a Deep Neural Network (DNN) was trained to classify brazilian car models. Our goal was basically to predict a brazilian car model given a full car picture. The final model was able classify 129 different models achieving a 91% average accuracy on test set.
+In this project, a Deep Neural Network (DNN) was trained to classify brazilian car models. Our goal was basically to predict a brazilian car model given a full car picture. The final model was able classify 190 different models achieving a 91% average accuracy on test set.
 
 Particularly, I find it really interesting how well the model performed given this is a real world dataset (not a reasearch, or prepared dataset). For instance, it can distinguish car models better than me :D
 
