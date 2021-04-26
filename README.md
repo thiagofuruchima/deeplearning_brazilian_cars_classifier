@@ -19,7 +19,7 @@ A deep learning project for brazilian cars classification using TensorFlow.
 
 In this project, a Deep Neural Network was trained to classify brazilian car models. Our goal was basically to predict a brazilian car model given a full car picture.
 
-A [simple WebApp](https://deeplearning-brazilian-cars.appspot.com/) was also built to showcase the model's application, in production environment.
+A [simple WebApp](https://deeplearning-brazilian-cars.appspot.com/) was also built to showcase the model's application, in production environment. It may take a while (a couple of seconds) for the first access, because Google's server keeps it "freezed" to save resources, and only "unfreezes" it when needed. After tha initial load, it should run fine.
 
 The following techniques/technologies were used to achieve that goal:
 
