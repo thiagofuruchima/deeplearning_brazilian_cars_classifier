@@ -23,7 +23,8 @@ def create_app():
     app.config.from_mapping(
         SECRET_KEY='development',
         DATABASE=os.path.join(app.instance_path, 'db.sqlite'),
-        UPLOAD_PATH=os.path.join(app.instance_path, '/uploads')
+        UPLOAD_PATH=os.path.join(app.instance_path, '/uploads'),
+        UPLOAD_EXTENSIONS=['.jpg', '.jpeg', '.png']
     )
     
     app.logger.info(app.instance_path)
