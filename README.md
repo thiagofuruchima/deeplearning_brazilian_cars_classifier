@@ -30,11 +30,11 @@ DNN Model:
 
 WebApp:
 - Flask for WebDev;
-- Bootstrap 5.0 for Framework;
-- SQLite for Database;
+- Bootstrap 5.0 as HTML Framework;
 
 Production Environment:
-- Google App Engine (GAE) for hosting;
+- Using a Docker cloud server on Digital Ocean for hosting;
+- I was using Google App Engine (GAE) before. Changed to Digital Ocean because it's cheaper.
 
 ## Installation <a name="installation"></a>
 
