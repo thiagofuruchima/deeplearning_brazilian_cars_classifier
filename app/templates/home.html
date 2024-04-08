@@ -3,43 +3,75 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            
+            <h1 class="display-4 mb-4">Which Car is This?</h1>
+            <p class="lead">Send a Brazilian car picture, and we'll try to guess the model.</p>
+            <hr class="my-4">
+        </div>
+    </div>
 
-		<script type="text/javascript">
-		// <![CDATA[				
-				$(document).ready(function() {
-				  $('#btn_loading').hide()
-				});	
-				
-				function eval() {
-					$('#btn_eval').hide()
-					$('#btn_loading').show()
-				};
-		// ]]>
-		</script>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-danger">{{ message | safe }}</div>
+            {% endfor %}
 
-	<h1 class="text-center">Which Car is This?</h1>
-	<p class="text-center">Send a brazilian car picture, and we'll try to guess the model.</p>
-	<hr />
+            <form id="main_form" class="row g-3" action="{{ url_for('eval') }}" method="post" enctype="multipart/form-data">
+                <!-- Hidden input for selected image name -->
+                <input type="hidden" name="selectedImage" id="selectedImage">                
 
-	{% for message in get_flashed_messages() %}
-	<div class="alert alert-danger">		
-		{{ message | safe }}
-	</div>
-	{% endfor %}				
+                <!-- File input for uploaded image -->
+                <div class="col-md-8">
+                    <input type="file" class="form-control form-control-lg" name="file">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-	<form class="content" action="{{ url_for('eval') }}" method="post" enctype = "multipart/form-data">
-		<div class="row">
-			<div class="col-10">
-				<input type="file" name="file" class="form-control form-control-lg">
-			</div>
-			<div class="col">
-				<button id='btn_eval' type="submit" class="btn btn-lg btn-primary" onclick='eval()'>Guess</button>
-				<button id='btn_loading' type="submit" class="btn btn-lg btn-primary">
-					<i class="fa fa-refresh fa-spin"></i> Loading...
-				</button>	
-			</div>
-		</div>
-	</form>
-	<hr/>
-	
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <p class="lead">Or select one of the images bellow...</p>
+            <hr class="my-4">
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">    
+        <div class="row justify-content-center">
+            {% for i in range(1, 6) %}
+            <div class="col-6 col-md-2 mb-3">
+                <img src="/static/images/car{{i}}.jpg" alt="Car Image {{i}}" class="img-fluid selectable-image" onclick="selectImage('car{{i}}.jpg')">
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let previouslySelectedImage = null;
+
+    function selectImage(imageName) {
+        if (previouslySelectedImage) {
+            previouslySelectedImage.classList.remove('selected-image');
+        }
+        const selectedElement = document.querySelector(`img[alt='Car Image ${imageName.split('.')[0].slice(-1)}']`);
+        selectedElement.classList.add('selected-image');
+        previouslySelectedImage = selectedElement;
+
+        // Set the selected image name to the hidden input
+        document.getElementById('selectedImage').value = imageName;
+
+        document.getElementById('main_form').submit()
+    }
+</script>
+
 {% endblock %}

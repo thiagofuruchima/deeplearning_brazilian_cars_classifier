@@ -1,0 +1,17 @@
+.selectable-image {
+    height: 80px;
+}
+
+.selectable-image:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.selectable-image:hover {
+    transform: scale(1.1); 
+}
+
+.selected-image {
+    box-shadow: 0 0 10px rgba(30, 33, 36, 0.5); 
+    transform: scale(1.25);
+}

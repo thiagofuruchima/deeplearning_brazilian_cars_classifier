@@ -34,7 +34,7 @@ def create_app():
 
     @app.route('/')
     def home():
-        return render_template('home.html')        
+        return render_template('home.html')
         
     @app.route('/about')
     def about():
@@ -50,12 +50,37 @@ def create_app():
 
         # record start time
         start_time = time.time()
+
+        # Check if a file part is in the request
+        if 'file' in request.files and request.files['file'].filename != '':
+            uploaded_file = request.files['file']
+            
+            # Process the uploaded file
+            img_data, prediction = process_image_uploaded(uploaded_file)
+
+        elif 'selectedImage' in request.form and request.form['selectedImage'] != '':
+            selected_image_name = request.form['selectedImage']
+            # Process the selected image
+            img_data, prediction = process_selected_image(selected_image_name)
+
+        else:
+            # No file was uploaded or selected
+            flash("No file selected. Please, select a picture of your car as a .jpg or .png file.")
+            
+            return redirect(url_for('home'))
         
+        # log eval finish
+        current_app.logger.info("End of Evaluation. Total time: " + str(round((time.time() - start_time),2)) + " seconds.")
+            
+        return render_template('result.html', img_data=img_data, prediction=prediction)
+
+     
+
+    def process_image_uploaded(uploaded_file):
+
         filename = ''
         
         try:
-            uploaded_file = request.files['file']        
-            
             filename = uploaded_file.filename
         except:
             pass
@@ -93,9 +118,21 @@ def create_app():
             # make the top 5 class predictions
             prediction = make_class_predictions(uploaded_file)
             
-            # log eval finish
-            current_app.logger.info("End of Evaluation. Total time: " + str(round((time.time() - start_time),2)) + " seconds.")
-                
-            return render_template('result.html', img_data=img_data, prediction=prediction)
+            return img_data, prediction
         
+    def process_selected_image(image_name):
+        img = Image.open('app/static/images/' + image_name)
+        data = io.BytesIO()
+        img.save(data, "JPEG")
+
+        # use base64 encode to show the picture without saving it to a file
+        encoded_img = base64.b64encode(data.getvalue())
+        decoded_img = encoded_img.decode('utf-8')
+        img_data = f"data:image/jpeg;base64,{decoded_img}"
+        
+        # make the top 5 class predictions
+        prediction = make_class_predictions('app/static/images/' + image_name)        
+
+        return img_data, prediction
+    
     return app

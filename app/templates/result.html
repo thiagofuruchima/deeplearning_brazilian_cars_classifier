@@ -3,86 +3,107 @@
 {% block title %}Result{% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 mb-4">Which Car is This?</h1>
+            <p class="lead">Send a Brazilian car picture, and we'll try to guess the model.</p>
+            <hr class="my-4">
+        </div>
+    </div>
 
-		<script type="text/javascript">
-		// <![CDATA[				
-				$(document).ready(function() {
-				  $('#btn_loading').hide()
-				});	
-				
-				function eval() {
-					$('#btn_eval').hide()
-					$('#btn_loading').show()
-				};
-		// ]]>
-		</script>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-success">
+                This looks like a <strong>{{ prediction[1][0] }}</strong>! Check out the chart below to see other possible guesses.
+            </div>
 
-	<h1 class="text-center">Which Car is This?</h1>
-	<p class="text-center">Send a brazilian car picture, and we'll try to guess the model.</p>
-	<hr />	
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ img_data }}" class="img-fluid" alt="Car Image">
+                </div>
+                <div class="col-md-6">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
 
-	<div class="alert alert-success">
-		This looks like a <strong>{{prediction[1][0]}}</strong>! Check out the chart bellow to see other possible guesses.
-	</div>
-	
-	<div class="row">
-		<div class="col">
-			<img src="{{ img_data }}" width="400">			
-		</div>
-		<div class="col">
-			<canvas id="myChart"></canvas>
-		</div>
-	</div>
-	</br>
-	
-	<hr />
-	
-	<form class="content" action="{{ url_for('eval') }}" method="post" enctype = "multipart/form-data">
-		<div class="row">
-			<div class="col-10">
-				<input type = "file" name = "file" class="form-control form-control-lg" >
-			</div>
-			<div class="col">
-				<button id='btn_eval' type="submit" class="btn btn-lg btn-primary" onclick='eval()'>Guess</button>
-				<button id='btn_loading' type="submit" class="btn btn-lg btn-primary">
-					<i class="fa fa-refresh fa-spin"></i> Loading...
-				</button>	
-			</div>
-		</div>
-	</form>
-	
-	<hr/>
-	
-	<script>
-		$(function() {
-			// <![CDATA[
-			var ctx = document.getElementById('myChart').getContext('2d');
-			var chart = new Chart(ctx, {
-				// The type of chart we want to create
-				type: 'bar',
+            <form id="main_form" class="row g-3 mt-4" action="{{ url_for('eval') }}" method="post" enctype="multipart/form-data">
+                <!-- Hidden input for selected image name -->
+                <input type="hidden" name="selectedImage" id="selectedImage">                
 
-				// The data for our dataset
-				data: {
-					labels: [{%for label in prediction[1] %} '{{label}}', {%endfor%}],
-					datasets: [{
-						label: 'Percentage',
-						data: [{%for prob in prediction[0] %} '{{prob}}', {%endfor%}],
-						backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
-						borderColor:['rgb(54, 162, 235)', 'rgb(75, 192, 192)', 'rgb(255, 99, 132)','rgb(255, 159, 64)','rgb(255, 205, 86)'],
-						borderWidth:1
-					}]
-				},
+				<div class="col-md-8">
+                    <input type="file" class="form-control form-control-lg" name="file">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Guess</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-				// Configuration options go here
-				options: {
-						title: {
-								display: false,
-								text: 'Custom Chart Title'
-					}
-				}
-			});
-		});
-		// ]]>
-	</script>	
-	
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <p class="lead">Or select one of the images bellow...</p>
+            <hr class="my-4">
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">    
+        <div class="row justify-content-center">
+            {% for i in range(1, 6) %}
+            <div class="col-6 col-md-2 mb-3">
+                <img src="/static/images/car{{i}}.jpg" alt="Car Image {{i}}" class="img-fluid selectable-image" onclick="selectImage('car{{i}}.jpg')">
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+	var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{% for label in prediction[1] %} '{{ label }}', {% endfor %}],
+            datasets: [{
+                label: 'Percentage',
+                data: [{% for prob in prediction[0] %} '{{ prob }}', {% endfor %}],
+                backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
+                borderColor: ['rgb(54, 162, 235)', 'rgb(75, 192, 192)', 'rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            },
+            title: {
+                display: false,
+                text: 'Custom Chart Title'
+            }
+        }
+    });
+
+    let previouslySelectedImage = null;
+
+    function selectImage(imageName) {
+        if (previouslySelectedImage) {
+            previouslySelectedImage.classList.remove('selected-image');
+        }
+        const selectedElement = document.querySelector(`img[alt='Car Image ${imageName.split('.')[0].slice(-1)}']`);
+        selectedElement.classList.add('selected-image');
+        previouslySelectedImage = selectedElement;
+
+        // Set the selected image name to the hidden input
+        document.getElementById('selectedImage').value = imageName;
+
+        document.getElementById('main_form').submit()
+    }	
+</script>
 {% endblock %}
